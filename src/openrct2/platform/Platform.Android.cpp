@@ -364,7 +364,7 @@ namespace OpenRCT2::Platform
         return static_cast<uint64_t>(AAsset_seek64(static_cast<AAsset*>(handle), 0, SEEK_CUR));
     }
 
-    void SeekAsset(AssetHandle handle, int64_t offset, int32_t origin)
+    void SeekAsset(AssetHandle handle, int64_t offset, SeekFrom origin)
     {
         if (handle == nullptr)
         {
@@ -374,13 +374,13 @@ namespace OpenRCT2::Platform
         int whence;
         switch (origin)
         {
-            case STREAM_SEEK_BEGIN:
+            case SeekFrom::start:
                 whence = SEEK_SET;
                 break;
-            case STREAM_SEEK_CURRENT:
+            case SeekFrom::current:
                 whence = SEEK_CUR;
                 break;
-            case STREAM_SEEK_END:
+            case SeekFrom::end:
                 whence = SEEK_END;
                 break;
             default:
