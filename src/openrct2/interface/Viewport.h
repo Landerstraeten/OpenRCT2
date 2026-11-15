@@ -10,6 +10,7 @@
 #pragma once
 
 #include "../core/FlagHolder.hpp"
+#include "../drawing/ImageIndexType.h"
 #include "../interface/ScreenCoords.hpp"
 #include "../interface/ViewportFlags.h"
 #include "../interface/ZoomLevel.h"
@@ -196,7 +197,7 @@ namespace OpenRCT2
     ScreenCoordsXY Translate3DTo2DWithZ(int32_t rotation, const CoordsXYZ& pos);
 
     uint8_t GetCurrentRotation();
-    int32_t GetHeightMarkerOffset();
+    ImageIndex GetHeightMarkerImageIndex(int32_t heightInUnits);
 
     void ViewportSetSavedView();
 

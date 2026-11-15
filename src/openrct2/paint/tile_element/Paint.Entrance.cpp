@@ -11,7 +11,6 @@
 
 #include "../../Context.h"
 #include "../../GameState.h"
-#include "../../SpriteIds.h"
 #include "../../drawing/LightFX.h"
 #include "../../drawing/PaletteIndex.h"
 #include "../../drawing/ScrollingText.h"
@@ -326,11 +325,8 @@ static void PaintHeightMarkers(PaintSession& session, const EntranceElement& ent
         if (entranceEl.getDirections() & 0xF)
         {
             auto heightMarkerBaseZ = entranceEl.getBaseZ() + 3;
-            ImageIndex baseImageIndex = SPR_HEIGHT_MARKER_BASE;
-            baseImageIndex += heightMarkerBaseZ / 16;
-            baseImageIndex += GetHeightMarkerOffset();
-            baseImageIndex -= kMapBaseZ;
-            auto imageId = ImageId(baseImageIndex, OpenRCT2::Drawing::Colour::grey);
+            auto imageIndex = GetHeightMarkerImageIndex(heightMarkerBaseZ / 16 - kMapBaseZ);
+            auto imageId = ImageId(imageIndex, OpenRCT2::Drawing::Colour::grey);
             PaintAddImageAsParent(session, imageId, { 16, 16, height }, { { 31, 31, heightMarkerBaseZ + 64 }, { 1, 1, 0 } });
         }
     }

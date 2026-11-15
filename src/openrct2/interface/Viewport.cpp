@@ -13,6 +13,7 @@
 #include "../Diagnostic.h"
 #include "../GameState.h"
 #include "../OpenRCT2.h"
+#include "../SpriteIds.h"
 #include "../config/Config.h"
 #include "../core/Guard.hpp"
 #include "../core/JobPool.h"
@@ -1952,18 +1953,34 @@ namespace OpenRCT2
         return rotation_masked;
     }
 
-    int32_t GetHeightMarkerOffset()
+    // RCT2's metric height marker labels show the wrong height from 81 units (121 metres) upwards,
+    // so g2.dat replaces the rest of them, up to the last one at 127 units (190 metres).
+    static constexpr int32_t kFirstReplacedMetricHeightMarker = 81;
+    static constexpr int32_t kLastMetricHeightMarker = 127;
+    static_assert(
+        SPR_G2_HEIGHT_MARKER_METRIC_END - SPR_G2_HEIGHT_MARKER_METRIC_START
+        == kLastMetricHeightMarker - kFirstReplacedMetricHeightMarker);
+
+    /**
+     * Get the height marker label image for a height, in the measurement format chosen in the options.
+     *
+     * @param heightInUnits height above kMapBaseZ, in units (one unit is 1.5 metres)
+     */
+    ImageIndex GetHeightMarkerImageIndex(int32_t heightInUnits)
     {
         // Height labels in units
         if (Config::Get().general.showHeightAsUnits)
-            return 0;
+            return SPR_HEIGHT_MARKER_BASE + heightInUnits;
 
         // Height labels in feet
         if (Config::Get().general.measurementFormat == MeasurementFormat::imperial)
-            return 1 * 256;
+            return SPR_HEIGHT_MARKER_BASE + 1 * 256 + heightInUnits;
 
         // Height labels in metres
-        return 2 * 256;
+        if (heightInUnits >= kFirstReplacedMetricHeightMarker)
+            return SPR_G2_HEIGHT_MARKER_METRIC_START + (heightInUnits - kFirstReplacedMetricHeightMarker);
+
+        return SPR_HEIGHT_MARKER_BASE + 2 * 256 + heightInUnits;
     }
 
     void ViewportSetSavedView()

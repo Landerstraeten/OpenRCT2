@@ -716,11 +716,8 @@ static void PaintHeightMarkers(PaintSession& session, const PathElement& pathEl)
             heightMarkerBaseZ += 8;
         }
 
-        uint32_t baseImageIndex = SPR_HEIGHT_MARKER_BASE;
-        baseImageIndex += heightMarkerBaseZ / 16;
-        baseImageIndex += GetHeightMarkerOffset();
-        baseImageIndex -= kMapBaseZ;
-        auto imageId = ImageId(baseImageIndex, OpenRCT2::Drawing::Colour::grey);
+        auto imageIndex = GetHeightMarkerImageIndex(heightMarkerBaseZ / 16 - kMapBaseZ);
+        auto imageId = ImageId(imageIndex, OpenRCT2::Drawing::Colour::grey);
         PaintAddImageAsParent(session, imageId, { 16, 16, heightMarkerBaseZ }, { 1, 1, 0 });
     }
 }

@@ -1002,14 +1002,10 @@ void PaintSurface(PaintSession& session, uint8_t direction, uint16_t height, con
         const int16_t y = session.MapPosition.y;
 
         int32_t surfaceHeight = TileElementHeight({ x + 16, y + 16 });
-        int32_t dx = surfaceHeight + 3;
-
-        int32_t image_id = (SPR_HEIGHT_MARKER_BASE + dx / 16);
-        image_id += GetHeightMarkerOffset();
-        image_id -= kMapBaseZ;
+        auto imageIndex = GetHeightMarkerImageIndex((surfaceHeight + 3) / 16 - kMapBaseZ);
 
         PaintAddImageAsParent(
-            session, ImageId(image_id, OpenRCT2::Drawing::Colour::oliveGreen), { 16, 16, surfaceHeight }, { 1, 1, 0 });
+            session, ImageId(imageIndex, OpenRCT2::Drawing::Colour::oliveGreen), { 16, 16, surfaceHeight }, { 1, 1, 0 });
     }
 
     bool has_surface = false;

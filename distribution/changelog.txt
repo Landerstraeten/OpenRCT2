@@ -16,6 +16,7 @@
 - Fix: [#27353] Some hacked colours appear differently between OpenGL and software drawing modes.
 - Fix: [#27385] Crash in `BannerSetNameAction` when called on something that is not a banner.
 - Fix: [#27392] Crash in `BannerSetStyleAction` when called on something that is not a banner.
+- Fix: [#27401] Height markers in metres show the wrong value above 120 m (original bug).
 - Fix: [#27409] The ‘not enough cash’ message and track design costs show the wrong amount on big-endian systems.
 
 0.5.7 (2026-11-01)
